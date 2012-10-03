@@ -70,10 +70,34 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
         $obj->rdwr = $data;
         $this->assertSame($data, $obj->rdwr);
     }
+
+    /**
+     * @test
+     * @dataProviderr 
+     * @expectedException PHPUnit_Framework_Error
+     * @group cantaccess
+     */
+    public function testCantAccessRead($obj)
+    {
+        $read = $obj->non_annotation;
+    }
+
+    /**
+     * @test
+     * @dataProviderr 
+     * @expectedException PHPUnit_Framework_Error
+     * @group cantaccess
+     */
+    public function testCantAccessWrite($obj)
+    {
+        $obj->non_annotation = 'qwerty';
+    }
 }
 
 class ProtectedProps extends Properties
 {
+    protected $non_annotation = 'cant access';
+
     /**
      * @reader
      */
@@ -97,6 +121,8 @@ class ProtectedProps extends Properties
 
 class PrivateProps extends Properties
 {
+    private $non_annotation = 'cant access';
+
     /**
      * @reader
      */
