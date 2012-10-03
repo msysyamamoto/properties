@@ -12,9 +12,9 @@ namespace Ymmtmsys\Properties;
 
 abstract class Properties
 {
-    private $prop_reader = null;
+    private $prop_reader = array();
 
-    private $prop_writer = null;
+    private $prop_writer = array();
 
     public function __get($name)
     {
