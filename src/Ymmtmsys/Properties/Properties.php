@@ -1,12 +1,12 @@
 <?php
 /**
- * Properties.php 
+ * Properties.php
  *
- * @package   Ymmtmsys\Properties 
+ * @package   Ymmtmsys\Properties
  * @author    ymmtmsys
  * @copyright Copyright (c) 2012 ymmtmsys
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/ymmtmsys/Properties 
+ * @link      https://github.com/ymmtmsys/Properties
  */
 namespace Ymmtmsys\Properties;
 
@@ -19,7 +19,7 @@ abstract class Properties
     public function __get($name)
     {
         if ($this->isReadableProperty($name) === true) {
-            return $this->$name;
+            return $this->getPropertyValue($name);
         }
 
         list($trace) = debug_backtrace();
@@ -33,7 +33,7 @@ abstract class Properties
     public function __set($name, $value)
     {
         if ($this->isWritableProperty($name) === true) {
-            $this->$name = $value;
+            return $this->setPropertyValue($name, $value);
         } else {
             list($trace) = debug_backtrace();
             trigger_error(
@@ -76,7 +76,24 @@ abstract class Properties
 
     private function getPropertyComment($name)
     {
-        $prop = new ReflectionProperty($this, $name);
+        $prop = new \ReflectionProperty($this, $name);
         return $prop->getDocComment();
+    }
+
+    private function getPropertyValue($name)
+    {
+        $prop = new \ReflectionProperty($this, $name);
+        $prop->setAccessible(true);
+        $value = $prop->getValue($this);
+        $prop->setAccessible(false);
+        return $value;
+    }
+
+    private function setPropertyValue($name, $value)
+    {
+        $prop = new \ReflectionProperty($this, $name);
+        $prop->setAccessible(true);
+        $prop->setValue($this, $value);
+        $prop->setAccessible(false);
     }
 }
