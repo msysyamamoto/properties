@@ -1,4 +1,7 @@
 <?php
+
+namespace Ymmtmsys\Properties;
+
 class Properties
 {
     private $prop_reader = null;
