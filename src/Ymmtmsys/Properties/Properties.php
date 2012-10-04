@@ -20,8 +20,8 @@ abstract class Properties
 
     public function __get($name)
     {
-        if ($this->isReadableProperty($name) === true) {
-            return $this->getPropertyValue($name);
+        if ($this->_isReadableProperty($name) === true) {
+            return $this->_getPropertyValue($name);
         }
 
         list($trace) = debug_backtrace();
@@ -34,8 +34,8 @@ abstract class Properties
 
     public function __set($name, $value)
     {
-        if ($this->isWritableProperty($name) === true) {
-            return $this->setPropertyValue($name, $value);
+        if ($this->_isWritableProperty($name) === true) {
+            return $this->_setPropertyValue($name, $value);
         } else {
             list($trace) = debug_backtrace();
             trigger_error(
@@ -46,10 +46,10 @@ abstract class Properties
         }
     }
 
-    private function isReadableProperty($name)
+    private function _isReadableProperty($name)
     {
         if (isset($this->__prop_reader[$name]) === false) {
-            $comment  = $this->getPropertyComment($name);
+            $comment  = $this->_getPropertyComment($name);
             $readable = preg_match('/@(?:accessor|reader)\b/', $comment) === 1;
             $this->__prop_reader[$name] = $readable;
         }
@@ -57,10 +57,10 @@ abstract class Properties
         return $this->__prop_reader[$name];
     }
 
-    private function isWritableProperty($name)
+    private function _isWritableProperty($name)
     {
         if (isset($this->__prop_writer[$name]) === false) {
-            $comment  = $this->getPropertyComment($name);
+            $comment  = $this->_getPropertyComment($name);
             $writable = preg_match('/@(?:accessor|writer)\b/', $comment) === 1;
             $this->__prop_writer[$name] = $writable;
         }
@@ -68,43 +68,43 @@ abstract class Properties
         return $this->__prop_writer[$name];
     }
 
-    private function getPropertyComment($name)
+    private function _getPropertyComment($name)
     {
-        $prop = $this->getProperty($name);
+        $prop = $this->_getProperty($name);
         if ($prop === false) {
             return false;
         }
         return $prop->getDocComment();
     }
 
-    private function getPropertyValue($name)
+    private function _getPropertyValue($name)
     {
-        $prop = $this->getProperty($name);
+        $prop = $this->_getProperty($name);
         $prop->setAccessible(true);
         $value = $prop->getValue($this);
         $prop->setAccessible(false);
         return $value;
     }
 
-    private function setPropertyValue($name, $value)
+    private function _setPropertyValue($name, $value)
     {
-        $prop = $this->getProperty($name);
+        $prop = $this->_getProperty($name);
         $prop->setAccessible(true);
         $prop->setValue($this, $value);
         $prop->setAccessible(false);
     }
 
-    private function getProperty($name)
+    private function _getProperty($name)
     {
         if (isset($this->__props[$name]) === false) {
-            $this->__props[$name] = self::getPropertyRecursive(
+            $this->__props[$name] = self::_getPropertyRecursive(
                 get_class($this), $name
             );
         }
         return $this->__props[$name];
     }
 
-    private static function getPropertyRecursive($klass, $prop_name)
+    private static function _getPropertyRecursive($klass, $prop_name)
     {
         try {
             return new \ReflectionProperty($klass, $prop_name);
@@ -115,7 +115,7 @@ abstract class Properties
             if ($parent_name === __CLASS__) {
                 return false;
             }
-            return self::getPropertyRecursive($parent_name, $prop_name);
+            return self::_getPropertyRecursive($parent_name, $prop_name);
         }
     }
 }
