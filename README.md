@@ -1,6 +1,48 @@
 Properties
 ==========
 
+Properties is a class to make setter and getter automatically.
+
+Example
+-------
+
+```PHP
+<?php
+use Ymmtmsys\Properties\Properties;
+
+class SubClass extends Properties // extend Properties class
+{
+    /**
+     * @reader
+     */
+    protected $rdonly = 'Read only property';
+
+    /**
+     * @accessor
+     */
+    protected $rdwr = 'Read and wirte property';
+
+    /**
+     * @writer
+     */
+    protected $wronly = 'Write only property';
+}
+
+$obj = new SubClass;
+
+// Read
+echo $obj->rdonly, "\n"; // => "Read only property"
+echo $obj->rdwr,   "\n"; // => "Read and wirte property" 
+
+// Write 
+$obj->rdwr   = 'Yup!';
+$obj->wronly = 'Yippee!';
+
+// Fatal Error 
+$obj->rdonly = 'Oops!';
+echo $obj->wronly, "\n";
+```
+
 Copyright
 ---------
 
