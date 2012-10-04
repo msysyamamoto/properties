@@ -35,7 +35,7 @@ abstract class Properties
     public function __set($name, $value)
     {
         if ($this->_isWritableProperty($name) === true) {
-            return $this->_setPropertyValue($name, $value);
+            $this->_setPropertyValue($name, $value);
         } else {
             list($trace) = debug_backtrace();
             trigger_error(
