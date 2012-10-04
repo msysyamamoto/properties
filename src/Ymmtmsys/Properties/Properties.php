@@ -12,9 +12,9 @@ namespace Ymmtmsys\Properties;
 
 abstract class Properties
 {
-    private $prop_reader = array();
+    private $__prop_reader = array();
 
-    private $prop_writer = array();
+    private $__prop_writer = array();
 
     private $props = array();
 
@@ -48,24 +48,24 @@ abstract class Properties
 
     private function isReadableProperty($name)
     {
-        if (isset($this->prop_reader[$name]) === false) {
+        if (isset($this->__prop_reader[$name]) === false) {
             $comment  = $this->getPropertyComment($name);
             $readable = preg_match('/@(?:accessor|reader)\b/', $comment) === 1;
-            $this->prop_reader[$name] = $readable;
+            $this->__prop_reader[$name] = $readable;
         }
 
-        return $this->prop_reader[$name];
+        return $this->__prop_reader[$name];
     }
 
     private function isWritableProperty($name)
     {
-        if (isset($this->prop_writer[$name]) === false) {
+        if (isset($this->__prop_writer[$name]) === false) {
             $comment  = $this->getPropertyComment($name);
             $writable = preg_match('/@(?:accessor|writer)\b/', $comment) === 1;
-            $this->prop_writer[$name] = $writable;
+            $this->__prop_writer[$name] = $writable;
         }
 
-        return $this->prop_writer[$name];
+        return $this->__prop_writer[$name];
     }
 
     private function getPropertyComment($name)
