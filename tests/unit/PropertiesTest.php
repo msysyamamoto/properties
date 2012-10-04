@@ -52,7 +52,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProviderr
+     * @dataProvider objProvider
      * @expectedException PHPUnit_Framework_Error
      * @group writer
      */
@@ -75,7 +75,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProviderr
+     * @dataProvider objProvider
      * @expectedException PHPUnit_Framework_Error
      * @group cantaccess
      */
@@ -86,7 +86,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProviderr
+     * @dataProvider objProvider
      * @expectedException PHPUnit_Framework_Error
      * @group cantaccess
      */
