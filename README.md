@@ -1,7 +1,7 @@
 Properties
 ==========
 
-Properties is a class to make setter and getter automatically.
+Properties is automatically creates a setter and getter via annotations.
 
 Example
 -------
