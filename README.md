@@ -3,6 +3,20 @@ Properties
 
 Properties is automatically creates a setter and getter via annotations.
 
+### Annotations
+
+#### @accessor
+
+The @accessor annotation is able to read and write variable.
+
+#### @reader
+
+The @reader annotation is able to read variable.
+
+#### @writer
+
+The @writer annotation is able to write variable.
+
 Example
 -------
 
@@ -13,19 +27,21 @@ use Ymmtmsys\Properties\Properties;
 class SubClass extends Properties // extend Properties class
 {
     /**
-     * @reader
-     */
-    protected $rdonly = 'Read only property';
-
-    /**
      * @accessor
      */
     protected $rdwr = 'Read and wirte property';
 
     /**
+     * @reader
+     */
+    protected $rdonly = 'Read only property';
+
+    /**
      * @writer
      */
     protected $wronly = 'Write only property';
+
+    protected $no_annotation = 'no annotation';
 }
 
 $obj = new SubClass;
@@ -35,12 +51,14 @@ echo $obj->rdonly, "\n"; // => "Read only property"
 echo $obj->rdwr,   "\n"; // => "Read and wirte property" 
 
 // Write 
-$obj->rdwr   = 'Yup!';
 $obj->wronly = 'Yippee!';
+$obj->rdwr   = 'Yup!';
 
-// Fatal Error 
+// Error!!
 $obj->rdonly = 'Oops!';
 echo $obj->wronly, "\n";
+$obj->no_annotation = 'php';
+echo $obj->no_annotation, "\n";
 ```
 
 Copyright
