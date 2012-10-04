@@ -10,12 +10,14 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
         return array(
             array(new ProtectedProps),
             array(new PrivateProps),
-        ); 
+            array(new SubProtectedProps),
+            array(new SubPrivateProps),
+        );
     }
 
     /**
      * @test
-     * @dataProvider objProvider 
+     * @dataProvider objProvider
      * @group reader
      */
     public function testReaderRead($obj)
@@ -25,7 +27,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProvider objProvider 
+     * @dataProvider objProvider
      * @expectedException PHPUnit_Framework_Error
      * @group reader
      */
@@ -36,8 +38,8 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProvider objProvider 
-     * @group writer 
+     * @dataProvider objProvider
+     * @group writer
      */
     public function testWriterWrite($obj)
     {
@@ -50,9 +52,9 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProviderr 
+     * @dataProviderr
      * @expectedException PHPUnit_Framework_Error
-     * @group writer 
+     * @group writer
      */
     public function testWriterRead($obj)
     {
@@ -61,8 +63,8 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProvider objProvider 
-     * @group accessor 
+     * @dataProvider objProvider
+     * @group accessor
      */
     public function testAccessor($obj)
     {
@@ -73,7 +75,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProviderr 
+     * @dataProviderr
      * @expectedException PHPUnit_Framework_Error
      * @group cantaccess
      */
@@ -84,7 +86,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProviderr 
+     * @dataProviderr
      * @expectedException PHPUnit_Framework_Error
      * @group cantaccess
      */
@@ -142,4 +144,12 @@ class PrivateProps extends Properties
     {
         return $this->wronly;
     }
+}
+
+class SubProtectedProps extends ProtectedProps
+{
+}
+
+class SubPrivateProps extends PrivateProps
+{
 }

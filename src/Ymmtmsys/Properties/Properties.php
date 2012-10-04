@@ -16,6 +16,8 @@ abstract class Properties
 
     private $prop_writer = array();
 
+    private $props = array();
+
     public function __get($name)
     {
         if ($this->isReadableProperty($name) === true) {
@@ -46,10 +48,6 @@ abstract class Properties
 
     private function isReadableProperty($name)
     {
-        if (property_exists($this, $name) === false) {
-            return false;
-        }
-
         if (isset($this->prop_reader[$name]) === false) {
             $comment  = $this->getPropertyComment($name);
             $readable = preg_match('/@(?:accessor|reader)\b/', $comment) === 1;
@@ -61,10 +59,6 @@ abstract class Properties
 
     private function isWritableProperty($name)
     {
-        if (property_exists($this, $name) === false) {
-            return false;
-        }
-
         if (isset($this->prop_writer[$name]) === false) {
             $comment  = $this->getPropertyComment($name);
             $writable = preg_match('/@(?:accessor|writer)\b/', $comment) === 1;
@@ -76,13 +70,41 @@ abstract class Properties
 
     private function getPropertyComment($name)
     {
-        $prop = new \ReflectionProperty($this, $name);
+        $prop = $this->getProperty($name);
+        if ($prop === false) {
+            return false;
+        }
         return $prop->getDocComment();
+    }
+
+    private function getProperty($name)
+    {
+        if (isset($this->props[$name]) === false) {
+            $this->props[$name] = self::getPropertyRecursive(
+                get_class($this), $name
+            );
+        }
+        return $this->props[$name];
+    }
+
+    private static function getPropertyRecursive($klass, $prop_name)
+    {
+        try {
+            return new \ReflectionProperty($klass, $prop_name);
+        } catch (\ReflectionException $exp) {
+            $obj = new \ReflectionClass($klass);
+            $parent_klass = $obj->getParentClass();
+            $parent_name  = $parent_klass->getName();
+            if ($parent_name === __CLASS__) {
+                return false;
+            }
+            return self::getPropertyRecursive($parent_name, $prop_name);
+        }
     }
 
     private function getPropertyValue($name)
     {
-        $prop = new \ReflectionProperty($this, $name);
+        $prop = $this->getProperty($name);
         $prop->setAccessible(true);
         $value = $prop->getValue($this);
         $prop->setAccessible(false);
@@ -91,7 +113,7 @@ abstract class Properties
 
     private function setPropertyValue($name, $value)
     {
-        $prop = new \ReflectionProperty($this, $name);
+        $prop = $this->getProperty($name);
         $prop->setAccessible(true);
         $prop->setValue($this, $value);
         $prop->setAccessible(false);
