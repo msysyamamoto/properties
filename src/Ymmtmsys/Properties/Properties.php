@@ -77,6 +77,23 @@ abstract class Properties
         return $prop->getDocComment();
     }
 
+    private function getPropertyValue($name)
+    {
+        $prop = $this->getProperty($name);
+        $prop->setAccessible(true);
+        $value = $prop->getValue($this);
+        $prop->setAccessible(false);
+        return $value;
+    }
+
+    private function setPropertyValue($name, $value)
+    {
+        $prop = $this->getProperty($name);
+        $prop->setAccessible(true);
+        $prop->setValue($this, $value);
+        $prop->setAccessible(false);
+    }
+
     private function getProperty($name)
     {
         if (isset($this->props[$name]) === false) {
@@ -100,22 +117,5 @@ abstract class Properties
             }
             return self::getPropertyRecursive($parent_name, $prop_name);
         }
-    }
-
-    private function getPropertyValue($name)
-    {
-        $prop = $this->getProperty($name);
-        $prop->setAccessible(true);
-        $value = $prop->getValue($this);
-        $prop->setAccessible(false);
-        return $value;
-    }
-
-    private function setPropertyValue($name, $value)
-    {
-        $prop = $this->getProperty($name);
-        $prop->setAccessible(true);
-        $prop->setValue($this, $value);
-        $prop->setAccessible(false);
     }
 }
