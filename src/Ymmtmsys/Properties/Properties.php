@@ -16,7 +16,7 @@ abstract class Properties
 
     private $__prop_writer = array();
 
-    private $props = array();
+    private $__props = array();
 
     public function __get($name)
     {
@@ -96,12 +96,12 @@ abstract class Properties
 
     private function getProperty($name)
     {
-        if (isset($this->props[$name]) === false) {
-            $this->props[$name] = self::getPropertyRecursive(
+        if (isset($this->__props[$name]) === false) {
+            $this->__props[$name] = self::getPropertyRecursive(
                 get_class($this), $name
             );
         }
-        return $this->props[$name];
+        return $this->__props[$name];
     }
 
     private static function getPropertyRecursive($klass, $prop_name)
