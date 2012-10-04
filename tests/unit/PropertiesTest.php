@@ -94,6 +94,31 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
     {
         $obj->non_annotation = 'qwerty';
     }
+
+    /**
+     * @test
+     * @dataProvider objProviderSameVarName
+     * @group samevarname 
+     */
+    public function testSameVarName($obj)
+    {
+        $obj->__prop_writer = 'foo';
+        $this->assertSame('foo', $obj->__prop_writer);
+
+        $obj->__prop_reader = 'bar';
+        $this->assertSame('bar', $obj->__prop_reader);
+
+        $obj->__props = 'baz';
+        $this->assertSame('baz', $obj->__props);
+    }
+
+    public function objProviderSameVarName()
+    {
+        return array(
+            array(new SameVarName),
+            array(new SubSameVarName),
+        );
+    }
 }
 
 class ProtectedProps extends Properties
@@ -152,4 +177,26 @@ class SubProtectedProps extends ProtectedProps
 
 class SubPrivateProps extends PrivateProps
 {
+}
+
+class SameVarName extends Properties
+{ 
+    /**
+     * @accessor
+     */
+    private $__prop_reader = '__prop_reader'; 
+
+    /**
+     * @accessor
+     */
+    private $__prop_writer = '__prop_writer'; 
+
+    /**
+     * @accessor
+     */
+    private $__props = '__props'; 
+}
+
+class SubSameVarName extends SameVarName 
+{ 
 }
