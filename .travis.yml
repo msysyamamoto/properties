@@ -8,4 +8,4 @@ before_script:
   - composer install
 
 script:
-  - phpunit --coverage-text -c tests/unit
+  - phpunit --coverage-text tests/unit
