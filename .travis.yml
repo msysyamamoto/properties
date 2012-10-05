@@ -4,5 +4,8 @@ php:
   - 5.3
   - 5.4
 
+pre-installed:
+  - composer install
+
 script:
   - phpunit tests/unit
