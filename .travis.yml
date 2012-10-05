@@ -4,8 +4,8 @@ php:
   - 5.3
   - 5.4
 
-pre-installed:
+before_script:
   - composer install
 
 script:
-  - phpunit tests/unit
+  - phpunit --coverage-text -c tests/unit
