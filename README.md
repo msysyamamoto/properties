@@ -3,6 +3,8 @@ Properties
 
 Properties is automatically creates a setter and getter via annotations.
 
+[![Build Status](https://secure.travis-ci.org/ymmtmsys/Properties.png)](http://travis-ci.org/ymmtmsys/Properties)
+
 ### Annotations
 
 #### @accessor
