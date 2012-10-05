@@ -3,7 +3,8 @@
     "authors": [
         {
             "name": "YAMAMOTO Masayasu",
-            "email": "ymmtmsys@gmail.com"
+            "email": "ymmtmsys@gmail.com",
+            "role": "Developer"
         }
     ],
     "description": "Automatically creates a setter and getter via annotations.",
