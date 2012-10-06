@@ -6,7 +6,7 @@
  * @author    ymmtmsys
  * @copyright Copyright (c) 2012 ymmtmsys
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/ymmtmsys/Properties
+ * @link      https://github.com/ymmtmsys/properties
  */
 namespace Ymmtmsys\Properties;
 
